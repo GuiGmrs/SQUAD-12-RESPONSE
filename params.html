@@ -1,0 +1,84 @@
+<div class="postman-container">
+  <!-- ESSA DAQUI É A BARRA DE REQUEST, GALERA -->
+  <div class="request-bar">
+    <select [(ngModel)]="method" class="method-select" [ngClass]="method.toLowerCase()">
+      <option value="GET"class="opt-get">GET</option>
+      <option value="POST" class="opt-post">POST</option>
+      <option value="PUT" class="opt-put">PUT</option>
+      <option value="DELETE" class="opt-delete">DELETE</option>
+    </select>
+    <input type="text" [(ngModel)]="url" placeholder="Enter request URL" class="url-input" />
+    <button class="btn-send" (click)="sendRequest()">Send</button>
+  </div>
+
+  <!-- AQUI É A TABELAS -->
+  <div class="tabs">
+    <button (click)="setTab('params')" [class.active]="activeTab === 'params'">Params</button>
+    <button (click)="setTab('authorization')" [class.active]="activeTab === 'authorization'">Authorization</button>
+    <button (click)="setTab('headers')" [class.active]="activeTab === 'headers'">Headers</button>
+    <button (click)="setTab('body')" [class.active]="activeTab === 'body'">Body</button>
+    <button (click)="setTab('scripts')" [class.active]="activeTab === 'scripts'">Scripts</button>
+  </div>
+
+  <!-- TABELA DE PARAMETROS, GALERA-->
+  <div class="params-section" *ngIf="activeTab === 'params'">
+    <div class="section-title">PARÂMETROS DE CONSULTAS</div>
+
+    <table class="params-table">
+      <thead>
+        <tr>
+          <th>Chave</th>
+          <th>Valor</th>
+          <th>Descrição</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of params; let i = index">
+          <td><input type="text" [(ngModel)]="p.key" placeholder="Key" /></td>
+          <td><input type="text" [(ngModel)]="p.value" placeholder="Value" /></td>
+          <td><input type="text" [(ngModel)]="p.description" placeholder="Description" /></td>
+          <td class="actions"><button class="btn-remove" (click)="removeParam(i)">×</button></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="add-row">
+      <button class="btn-add" (click)="addParam()">+ Adicionar Parâmetros</button>
+    </div>
+  </div>
+</div>
+
+
+<div class="params-section" *ngIf="activeTab === 'headers'">
+  <div class="section-title">Headers</div>
+  <table class="params-table">
+    <thead>
+      <tr>
+        <th>Chave</th>
+        <th>Valor</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let h of headers; let i = index">
+        <td><input type="text" [(ngModel)]="h.key" placeholder="Header" /></td>
+        <td><input type="text" [(ngModel)]="h.value" placeholder="Value" /></td>
+        <td><button class="btn-remove" (click)="removeHeader(i)">×</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="btn-add" (click)="addHeader()">+ Add Header</button>
+</div>
+
+
+<div class="params-section" *ngIf="activeTab === 'body'">
+  <div class="section-title">Body</div>
+  <textarea [(ngModel)]="body" placeholder="{ 'json': 'aqui' }"></textarea>
+</div>
+
+
+<div class="response-section">
+  <h3>Response:</h3>
+  <pre>{{ response }}</pre>
+</div>
